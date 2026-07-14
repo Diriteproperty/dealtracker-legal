@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Download DealTracker</title>
+  <style>
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: #0B1F3A;
+      color: #fff;
+      padding: 24px;
+    }
+    .card {
+      width: min(420px, 100%);
+      background: #122a4a;
+      border-radius: 16px;
+      padding: 28px 24px;
+      box-shadow: 0 12px 40px rgba(0,0,0,.35);
+    }
+    h1 { margin: 0 0 8px; font-size: 1.6rem; }
+    p { margin: 0 0 20px; color: #c9d6e8; line-height: 1.45; }
+    a.btn {
+      display: block;
+      text-align: center;
+      text-decoration: none;
+      color: #0B1F3A;
+      background: #C9A227;
+      border-radius: 10px;
+      padding: 14px 16px;
+      font-weight: 700;
+      margin-bottom: 12px;
+    }
+    a.btn.secondary { background: #fff; }
+    .muted { font-size: .9rem; color: #9bb0c9; margin-top: 8px; }
+  </style>
+</head>
+<body>
+  <main class="card">
+    <h1>Get DealTracker</h1>
+    <p id="msg">Choose your store. We’ll try to open the right one automatically.</p>
+    <a class="btn" id="ios" href="https://apps.apple.com/app/id6783512014">Download on the App Store</a>
+    <a class="btn secondary" id="android" href="https://play.google.com/store/apps/details?id=com.mydeal.app">Get it on Google Play</a>
+    <p class="muted">Buyer-first deal &amp; deposit tracker by DIRITEPROPERTY INC.</p>
+  </main>
+  <script>
+    (function () {
+      var ua = navigator.userAgent || "";
+      var isAndroid = /Android/i.test(ua);
+      var isIOS = /iPhone|iPad|iPod/i.test(ua);
+      var apple = "https://apps.apple.com/app/id6783512014";
+      var play = "https://play.google.com/store/apps/details?id=com.mydeal.app";
+      var msg = document.getElementById("msg");
+      if (isAndroid) {
+        msg.textContent = "Opening Google Play…";
+        window.location.replace(play);
+      } else if (isIOS) {
+        msg.textContent = "Opening the App Store…";
+        window.location.replace(apple);
+      }
+    })();
+  </script>
+</body>
+</html>
