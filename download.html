@@ -36,6 +36,19 @@
       margin-bottom: 12px;
     }
     a.btn.secondary { background: #fff; }
+    .soon {
+      display: block;
+      text-align: center;
+      border-radius: 10px;
+      padding: 14px 16px;
+      font-weight: 700;
+      margin-bottom: 12px;
+      color: #9bb0c9;
+      background: transparent;
+      border: 1px dashed #4a6484;
+      cursor: default;
+      user-select: none;
+    }
     .muted { font-size: .9rem; color: #9bb0c9; margin-top: 8px; }
   </style>
 </head>
@@ -45,6 +58,7 @@
     <p id="msg">Choose your store. We’ll try to open the right one automatically.</p>
     <a class="btn" id="ios" href="https://apps.apple.com/app/id6783512014">Download on the App Store</a>
     <a class="btn secondary" id="android" href="https://play.google.com/store/apps/details?id=com.mydeal.app">Get it on Google Play</a>
+    <div class="soon" id="galaxy" aria-disabled="true">Samsung Galaxy Store — coming soon</div>
     <p class="muted">Buyer-first deal &amp; deposit tracker by DIRITEPROPERTY INC.</p>
   </main>
   <script>
@@ -55,6 +69,39 @@
       var apple = "https://apps.apple.com/app/id6783512014";
       var play = "https://play.google.com/store/apps/details?id=com.mydeal.app";
       var msg = document.getElementById("msg");
+      var platform = isAndroid ? "android" : isIOS ? "ios" : "other";
+
+      function via() {
+        var q = location.search || "";
+        if (/[?&](gclid|gbraid|wbraid|gad_source)=/i.test(q)) return "ads";
+        if (/google\./i.test(document.referrer || "")) return "ads";
+        return "direct";
+      }
+
+      function track(kind, which) {
+        try {
+          fetch("https://srquiblsskszaqpygvfc.supabase.co/rest/v1/download_hits", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              apikey: "sb_publishable_mGaFRvg403l8cRGzTVuHTQ_JwRBzoOQ",
+              Authorization: "Bearer sb_publishable_mGaFRvg403l8cRGzTVuHTQ_JwRBzoOQ",
+              Prefer: "return=minimal"
+            },
+            body: JSON.stringify({ kind: kind, platform: which, via: via() }),
+            keepalive: true
+          }).catch(function () {});
+        } catch (e) {}
+      }
+
+      track("visit", platform);
+      document.getElementById("ios").addEventListener("click", function () {
+        track("store", "ios");
+      });
+      document.getElementById("android").addEventListener("click", function () {
+        track("store", "android");
+      });
+
       if (isAndroid) {
         msg.textContent = "Opening Google Play…";
         window.location.replace(play);
