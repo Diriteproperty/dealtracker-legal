@@ -56,6 +56,7 @@
   <main class="card">
     <h1>Get DealTracker</h1>
     <p id="msg">Choose your store. We’ll try to open the right one automatically.</p>
+    <a class="btn" id="desktop" hidden href="https://diriteproperty.github.io/dealtracker-legal/desktop/login">Continue on this computer</a>
     <a class="btn" id="ios" href="https://apps.apple.com/app/id6783512014">Download on the App Store</a>
     <a class="btn secondary" id="android" href="https://play.google.com/store/apps/details?id=com.mydeal.app">Get it on Google Play</a>
     <div class="soon" id="galaxy" aria-disabled="true">Samsung Galaxy Store — coming soon</div>
@@ -108,6 +109,9 @@
       } else if (isIOS) {
         msg.textContent = "Opening the App Store…";
         window.location.replace(apple);
+      } else {
+        msg.textContent = "This computer does not open an app store. If you already created your account on your phone, continue here. The store buttons are for a phone.";
+        document.getElementById("desktop").hidden = false;
       }
     })();
   </script>
